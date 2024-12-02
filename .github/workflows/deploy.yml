@@ -27,3 +27,16 @@ jobs:
           echo "------------------"
           cd dist
           ls
+
+      - name: AWS Resource에 접근을 위한 인증 설정하기
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: S3 기존 파일들 전체 삭제하기
+        run: aws s3 rm --recursive s3://facebook-web-kosmosticlay
+
+      - name: S3에 빌드된 파일 업로드하기
+        run: aws s3 cp ./dist s3://facebook-web-kosmosticlay/ --recursive
