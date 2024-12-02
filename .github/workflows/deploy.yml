@@ -12,3 +12,9 @@ jobs:
     steps: # 특정 작업을 수행하는 단위
       - name: Hello World 출력하기 # Step의 이름 설정
         run: echo "Hello World" # 실제 실행하게 될 명령어
+
+      - name: 여러 명령어 문장 작성하기
+        run: |
+          echo "Good"
+          echo "Morning"
+          pwd
