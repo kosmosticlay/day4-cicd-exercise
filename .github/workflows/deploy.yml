@@ -1,7 +1,14 @@
-name: Github Actions 실핼해보기
+name: Github Actions 실핼해보기 # Workflow의 이름 설정 (예: 배포용/테스트용/빌드용 등)
 
-# 실행 시점 설정 (main 브랜치에 push가 될 때마다 아래 작업들을 실행)
-on:
-  push:
-    branches:
-      - main
+on: # Workflow 실행 시점(트리거) 설정
+  push: # push 이벤트에서 발생시 실행하도록 설정
+    branches: # 어떤 브랜치에서 동작할지 설정 (master브랜치에서만 동작)
+      - master
+
+jobs:
+  My-Deploy-Job: # 임의의 job명 설정
+    runs-on: ubuntu-latest # ubuntu 운영체제로 설정
+
+    steps: # 특정 작업을 수행하는 단위
+      - name: Hello World 출력하기 # Step의 이름 설정
+        run: echo "Hello World" # 실제 실행하게 될 명령어
