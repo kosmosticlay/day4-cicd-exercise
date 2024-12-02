@@ -1,0 +1,7 @@
+name: Github Actions 실핼해보기
+
+# 실행 시점 설정 (main 브랜치에 push가 될 때마다 아래 작업들을 실행)
+on:
+  push:
+    branches:
+      - main
