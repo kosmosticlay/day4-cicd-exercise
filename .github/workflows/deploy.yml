@@ -1,30 +1,29 @@
-name: Github Actions 실핼해보기 # Workflow의 이름 설정 (예: 배포용/테스트용/빌드용 등)
+name: AWS S3 배포 및 CloudFront 캐시 무효화 자동화
 
-on: # Workflow 실행 시점(트리거) 설정
-  push: # push 이벤트에서 발생시 실행하도록 설정
-    branches: # 어떤 브랜치에서 동작할지 설정 (master브랜치에서만 동작)
+on:
+  push:
+    branches:
       - master
 
 jobs:
-  My-Deploy-Job: # 임의의 job명 설정
-    runs-on: ubuntu-latest # ubuntu 운영체제로 설정
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Github Repository 파일 불러오기
+        uses: actions/checkout@v4 # npm과 같이 'Marketplace'라는 G.A 라이브러리
 
-    steps: # 특정 작업을 수행하는 단위
-      - name: Hello World 출력하기 # Step의 이름 설정
-        run: echo "Hello World" # 실제 실행하게 될 명령어
+      - name: Github Repository 파일 출력하기
+        run: ls # Repository의 원본 파일들의 목록 확인 (빌드파일x)
 
-      - name: 여러 명령어 문장 작성하기
+      - name: React 프로젝트의 의존성 파일 설치하기
+        run: npm i
+
+      - name: 빌드하기
+        run: npm run build # Github Actions의 Ubuntu runner는 Node.js가 사전 설치됨
+
+      - name: 빌드용 파일이 생성된 dist 폴더 확인하기
         run: |
-          echo "Good"
-          echo "Morning"
-          pwd
-
-      - name: Github Actions 자체 저장되어 있는 변수 사용하기
-        run: |
-          echo $GITHUB_REPOSITORY
-          echo $GITHUB_SHA
-
-      - name: Github Actions Secret 변수 사용하기
-        run: |
-          echo ${{ secrets.MY_NAME }}
-          echo ${{ secrets.MY_HOBBY }}
+          ls
+          echo "------------------"
+          cd dist
+          ls
